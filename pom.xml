@@ -4,10 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <rxtxcomm.path>C:/Program Files (x86)/Java/jdk1.8.0_111/jre/lib/ext/RXTXcomm.jar</rxtxcomm.path>
+    </properties>
+
     <groupId>pl.ciochon.arduino</groupId>
     <artifactId>higrometer</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
+        <finalName>arduino-higrometer</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -32,7 +37,7 @@
                             <artifactId>rxtxcomm</artifactId>
                             <version>1.0</version>
                             <packaging>jar</packaging>
-                            <file>C:/Program Files (x86)/Java/jdk1.8.0_111/jre/lib/ext/RXTXcomm.jar</file>
+                            <file>${rxtxcomm.path}</file>
                         </configuration>
                     </execution>
                 </executions>
@@ -65,11 +70,11 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>arduino.ext</groupId>
-            <artifactId>rxtxcomm</artifactId>
-            <version>1.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>arduino.ext</groupId>-->
+            <!--<artifactId>rxtxcomm</artifactId>-->
+            <!--<version>1.0</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -84,6 +89,26 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>apache-log4j-extras</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>javax.mail-api</artifactId>
+            <version>1.5.5</version>
         </dependency>
     </dependencies>
 

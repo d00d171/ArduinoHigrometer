@@ -1,6 +1,8 @@
-package pl.ciochon.arduino.higrometer.connection;
+package pl.ciochon.arduino.higrometer.messageprocessor;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import pl.ciochon.arduino.higrometer.connection.MessageProcessor;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -11,9 +13,9 @@ import static java.time.temporal.ChronoUnit.MINUTES;
 /**
  * Created by Konrad Ciochoń on 2018-10-19.
  */
-public class MeasurmentProcessor {
+public class AverageValuesCalculator implements MessageProcessor {
 
-    private static final Logger logger = Logger.getLogger(MeasurmentProcessor.class);
+    private static final Logger logger = Logger.getLogger(AverageValuesCalculator.class);
 
     private LocalTime lastSaveTime;
 
@@ -21,7 +23,8 @@ public class MeasurmentProcessor {
 
     private List<Double> temps = new ArrayList<>();
 
-    private static final int PERSIST_INTERVAL_IN_MINUTES = 30;
+    @Value("${average.interval:30}")
+    private int averageInterval;
 
     public void process(String inputValue) {
         if(lastSaveTime == null){
@@ -41,7 +44,6 @@ public class MeasurmentProcessor {
     }
 
     private void saveValues(String inputValue){
-        logger.debug(inputValue);
         String[] splitValues = inputValue.split(";");
         Double humidity = Double.parseDouble(splitValues[0]);
         Double temp = Double.parseDouble(splitValues[1]);
@@ -56,7 +58,6 @@ public class MeasurmentProcessor {
     }
 
     private boolean halfHourPassed(){
-//        return SECONDS.between(lastSaveTime, LocalTime.now()) >= 10;
-        return MINUTES.between(lastSaveTime, LocalTime.now()) >= PERSIST_INTERVAL_IN_MINUTES;
+        return Math.abs(MINUTES.between(lastSaveTime, LocalTime.now())) >= averageInterval;
     }
 }

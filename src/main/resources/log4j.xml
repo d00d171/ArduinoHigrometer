@@ -8,11 +8,21 @@
         </layout>
     </appender>
 
-    <appender name="file" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="append" value="false"/>
+    <!--<appender name="file" class="org.apache.log4j.DailyRollingFileAppender">-->
+        <!--<param name="append" value="true"/>-->
+        <!--<param name="file" value="app.log"/>-->
+        <!--<param name="datePattern" value="yyyy-MM-dd-HH-mm"/>-->
+        <!--<layout class="org.apache.log4j.PatternLayout">-->
+            <!--<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %C:%L - %m%n"/>-->
+        <!--</layout>-->
+    <!--</appender>-->
+
+    <appender name="file" class="pl.ciochon.arduino.higrometer.support.log4j.LogSendingAppender">
+        <param name="append" value="true"/>
         <param name="file" value="app.log"/>
+        <param name="datePattern" value="yyyy-MM-dd"/>
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %C:%L - %m%n"/>
+            <param name="ConversionPattern" value="%d{HH:mm};%m%n"/>
         </layout>
     </appender>
 

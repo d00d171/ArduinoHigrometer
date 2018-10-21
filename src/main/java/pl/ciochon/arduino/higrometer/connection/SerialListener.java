@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
+import java.util.List;
 
 /**
  * Created by Konrad Ciochoń on 2018-10-19.
@@ -17,14 +18,20 @@ public class SerialListener implements SerialPortEventListener {
     private BufferedReader input;
 
     @Autowired
-    private MeasurmentProcessor measurmentProcessor;
+    private List<MessageProcessor> messageProcessors;
 
     public void serialEvent(SerialPortEvent serialPortEvent) {
         if (serialPortEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
             try {
                 String inputValue = input.readLine();
-                measurmentProcessor.process(inputValue);
                 logger.trace("Read line: " + inputValue);
+                messageProcessors.stream().forEach(messageProcessor -> {
+                    try {
+                        messageProcessor.process(inputValue);
+                    } catch (Exception e){
+                        logger.error("Error processing message by processor: " + messageProcessor.getClass());
+                    }
+                });
             } catch (Exception e) {
                 logger.error("Error reading serial", e);
             }
